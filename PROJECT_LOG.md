@@ -213,3 +213,10 @@ MAE = 36.98
 RMSE = 63.13
 Results are realistic due to high volatility of Delhi PM2.5 levels.
 
+STEP 10 COMPLETED:
+PM10 forecasting model trained using time-based split.
+Final performance:
+MAE = 149.30 µg/m³
+RMSE = 217.00 µg/m³
+Higher error due to highly volatile nature of PM10 in Delhi.
+
