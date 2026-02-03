@@ -9,3 +9,5 @@ models/*.pkl
 # Ignore Python cache
 __pycache__/
 *.pyc
+# Ignore environment variables (API keys)
+.env
