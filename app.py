@@ -2,6 +2,10 @@ import streamlit as st
 import numpy as np
 import joblib
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ==================================================
 # PAGE CONFIG
@@ -173,15 +177,20 @@ extreme_model = joblib.load("models/extreme_pollution_classifier.pkl")
 fog_model = joblib.load("models/fog_prediction_model.pkl")
 
 # ==================================================
-# API CONFIG
+# API CONFIG (SECURE)
 # ==================================================
-API_KEY = "3aba0dfdc182b8631afe69ed5678e68f"
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
 LAT, LON = 28.6139, 77.2090
 
 def fetch_real_time_data():
+    if API_KEY is None:
+        raise ValueError("API key not found")
+
     weather = requests.get(
         f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={API_KEY}&units=metric"
     ).json()
+
     air = requests.get(
         f"https://api.openweathermap.org/data/2.5/air_pollution?lat={LAT}&lon={LON}&appid={API_KEY}"
     ).json()
@@ -212,7 +221,18 @@ st.markdown("""
 # ==================================================
 # LIVE CONDITIONS
 # ==================================================
-data = fetch_real_time_data()
+try:
+    data = fetch_real_time_data()
+except Exception:
+    st.warning("Live data unavailable. Using fallback values.")
+    data = {
+        "temperature": 20.0,
+        "humidity": 60.0,
+        "pressure": 1010.0,
+        "wind_speed": 2.0,
+        "pm25": 150.0,
+        "pm10": 200.0,
+    }
 
 st.markdown('<div class="glass">', unsafe_allow_html=True)
 st.subheader("🌍 Live Environmental Snapshot")
