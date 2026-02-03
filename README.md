@@ -28,3 +28,11 @@ meteorological and air quality data.
 ## Note
 Large datasets and trained model files are excluded using `.gitignore`
 to keep the repository lightweight and reproducible.
+
+## Running the Dashboard Locally
+
+To start the Streamlit dashboard:
+
+```bash
+streamlit run app.py
+
